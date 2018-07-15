@@ -1,5 +1,435 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[spanish, english]{babel}
+\usepackage{float}
+\date{}
+
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{calligra}
+\usepackage{tikz}\usetikzlibrary{patterns, hobby}
+
+\pgfdeclarepatternformonly{south west lines}{\pgfqpoint{-0pt}{-0pt}}{\pgfqpoint{3pt}{3pt}}{\pgfqpoint{3pt}{3pt}}{
+        \pgfsetlinewidth{0.4pt}
+        \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+        \pgfpathlineto{\pgfqpoint{3pt}{3pt}}
+        \pgfpathmoveto{\pgfqpoint{2.8pt}{-.2pt}}
+        \pgfpathlineto{\pgfqpoint{3.2pt}{.2pt}}
+        \pgfpathmoveto{\pgfqpoint{-.2pt}{2.8pt}}
+        \pgfpathlineto{\pgfqpoint{.2pt}{3.2pt}}
+        \pgfusepath{stroke}}
+
+\pgfdeclarepatternformonly{south east lines}{\pgfqpoint{-0pt}{-0pt}}{\pgfqpoint{3pt}{3pt}}{\pgfqpoint{3pt}{3pt}}{
+    \pgfsetlinewidth{0.4pt}
+    \pgfpathmoveto{\pgfqpoint{0pt}{3pt}}
+    \pgfpathlineto{\pgfqpoint{3pt}{0pt}}
+    \pgfpathmoveto{\pgfqpoint{.2pt}{-.2pt}}
+    \pgfpathlineto{\pgfqpoint{-.2pt}{.2pt}}
+    \pgfpathmoveto{\pgfqpoint{3.2pt}{2.8pt}}
+    \pgfpathlineto{\pgfqpoint{2.8pt}{3.2pt}}
+    \pgfusepath{stroke}}
+
+\renewcommand{\labelenumi}{\alph{enumi}}
+
+\title{Four Kinds of Causality: Quantum Fields and Local Algebras}
+
+\author{Francisco Calderón}
+
 \begin{document}
-(Type your content here.)
+
+\maketitle
+
+\begin{abstract}
+The Wightman axioms were set forth in the fifties in order to characterize a quantum field that had both the properties sought by the first quantization attempts and an appropriate mathematical structure. Particularly, they implemented the concepts of causality and locality, eventually leading to the formulation led by Haag in the next decades based on a local operator algebra structure. We will show and motivate the postulates of both pictures, exploring some of their consequences. Additionally, we will show the construction of the "causal diamond" as an example of the so-called "primitive causality". Finally, some of the philosophical problems underlying our usual "causal relation" concept will be exposed. This text draws heavily upon Haag's \textit{Local Quantum Physics} \cite{haag_local_1996} and his paper with Schroer of a previous formulation of the axioms \cite{haag_postulates_1962}.
+\end{abstract}
+
+\begin{section}{Motivation}
+
+Before the formulation of Dirac's equation there were some attempts to state a quantum relativistic equation, i. e., one that could be interpreted as a probability density as in Schrödinger's picture but that was also covariant. At first, they failed to write an equation that allowed to develop a physically reasonable theory. The on-shell condition of positive energy in the Klein-Gordon attempt made the "wave function" $\psi$ and its time derivative dependent on each other. What seemed as multiplying by $-iE_p$ in the plane wave Fourier expansion led to the following result in the position space:
+
+\begin{equation}
+\frac{\partial \psi (t,\vec{x})}{\partial t} = \int \varepsilon (\vec{x} - \vec{x'}) \psi (t, \vec{x'}) d^3 \vec{x'}
+\end{equation}
+
+The integral kernel $\varepsilon$ (whose specific form will not be of our concern here) shows us that the state is unlocalized for the same time $t$. Besides, we cannot interpret the product $\bra{\psi}\ket{\psi}$ as a probability density anymore, since it is not a positive quantity. If we can not interpret $\psi$ as a wave function in Schrödinger's picture, what sense does the "position" concept have? This brings us back to the "action at a distance" problem that Faraday and Maxwell solved by introducing fields as local entities. Newton and Wigner tried to solve this issue by defining $\psi ^{NW} (\vec{p}) = \frac{\psi (\vec{p})}{\sqrt{2E_p}}$ but, since it depends on the energy of the particle, a new problem arises: it is no longer covariant. This localization concept is ambiguous up to the Compton wavelength, so it works well within certain limits but is meaningless for massless particles \cite{haag_local_1996}. How can we formulate a local covariant quantum theory?
+
+\
+
+On the other hand, we will see that the causal relation established by the special relativity theory is "weak" in the sense that it does not tell us when is there a causal relationship between two events. It only constrains the conditions of possibility of such relationships. If two events are separated by a time-like interval, it is \textit{possible} that they are causally connected, whereas a space-like separation tells us that it is \textit{impossible} that they are causally related, due to the light speed signal limit. Nonetheless, if two events are simply not causally related it does not imply that their separation is space-like. This will lead us to think thoroughly about our concept of causality, delving into Lewis' and Stalnaker's possible worlds semantics \cite{lewis_causation_1973} and Rédei's work on the possibility of Bell inequality violations and superluminal causation in relativistic quantum field theories \cite{redei_is_1996}.
+
+\end{section}
+
+\begin{section}{Wightman / Haag-Kastler Axioms}
+
+A careful distinction between both formulations will not be necessary. It suffices to say that Wightman's picture is earlier and it is formulated in terms of vacuum expected values, whereas Haag's and his collaborator's one is algebraic. It should be noted that we will only be concerned with the free scalar field, although these axioms can be extended or modified in order to include spinors, scattering, to make the theory renormalizable, were that desirable, or they can be formulated in terms of quasilocal nets of C*-algebras. The latter will be further explored in later works. Finally, some axioms have been given two names, depending on whether Haag's book or paper was followed. Additionally, some of them have two "versions" of which the "a" one is a weaker requirement. However, they are in some sense equivalent.
+
+\subsection{The Manifold of States - Hilbert Space}
+
+The states of the system correspond to vectors (or, more precisely, rays) in a Hilbert space $\mathcal{H}$, endowed with a positive-definite metric. We also require the space to be separable, i. e., to have at least one countable dense subset $\mathcal{D}$.
+
+\subsection{Definition of the Field - Implementing locality}
+
+\begin{enumerate}
+\item For every point $x$ in space-time there exists a sesquilinear form $\varphi (x)$ in $\mathcal{H}$. In particular, we want them to be defined on the subset $\mathcal{D}$. 
+
+\
+
+This entails that, for $\psi _1$, $\psi _2$ $\in$ $\mathcal{D}$, $\bra{\psi _2} \varphi (x) \ket{\psi _1}$ is finite, since the probability amplitudes from these states tend to decrease as we increase the momenta or the number of particles. Moreover, talking about dense domains will allow us to appropriately define operator adjoints and the completeness of the space. Notice that this mathematical definition of a quantum field is already implementing locality, as $\varphi$ depends on a point in Minkowski space-time. It is also noteworthy that Wick proved that any product of creation and destruction operators of the form $a^* (x) ^m a(x) ^n$ is a sesquilinear form on a dense domain, so this version of the axiom serves as a motivation of the normal-ordered product \cite{haag_local_1996}. Additionally, we can now define the hermitian conjugate of the field $\varphi$, which is also a sesquilinear form over $\mathcal{D}$. It is defined as:
+
+\begin{equation}
+\bra {\psi _2} \varphi ^* (x) \ket{\psi _1} = \overline{\bra{\psi _1} \varphi (x) \ket{\psi _2}}
+\end{equation}
+
+This definition is an additional axiom in Haag's book \cite{haag_local_1996}.
+
+\
+
+Distributions often arise when studying the Klein-Gordon field, specially in the context of Green functions. Besides, as a quantum field is a physical system with infinite degrees of freedom, it is not an honest observable, as any measurement at a point would require infinite energy. Mathematically, these "divergences" often arise in the products of distribution. This will motivate a stronger version of the axiom which will not, however, solve the measurement problem.
+
+\item $\varphi (x)$ is an "operator-valued distribution". If $f(x)$ is a real Schwartz function (that is, infinitely differentiable and that decreases faster than any polynomial) with support in some region of space-time,
+
+\begin{equation}
+\varphi (f) = \int \varphi (x) f(x) d^4 x
+\end{equation}
+
+is an unbounded operator over $\mathcal{H}$. This will be true for any polynomial of $\phi$. This operator is called the \textbf{smeared field}.
+
+\
+
+It is quite unfortunate that the field distribution and the field operator have the same notation throughout Haag's work. However, we must keep in mind that, from now on, $\varphi (x)$ will not denote a distribution but an unbounded operator, where $x$ belongs to the support of the test function which tempers the field distribution.
+
+\
+
+Since this operator is unbounded, we will have two issues: first, the measurement problem prevails. Second, the fields will not make an algebra, unless we are able to find a common domain sufficiently large for the support of their respective test functions to live in. Were that be the case, let us call that region in space-time $\mathcal{O}$, such that $supp(f) \subseteq \mathcal{O}$. Then, the operators form a polynomial algebra $P(\mathcal{O})$. Using the spectral theorem we can decompose an unbounded operator into bounded ones (the projectors). If the spectral projectors form a von Neumann algebra (or ring, as they used to call them) $R(\mathcal{O})$, we say that the unbounded operator is \textit{associated} with such algebra. We will endorse this assumption from now on. Let us also define the algebra associated with the whole space-time $R_{\infty} := R(\mathbb{R}^4)$. 
+
+\end{enumerate} 
+
+\subsection{Lorentz Invariance}
+
+For each inhomogeneous Lorentz transformation $g=(a,\Lambda) \in \mathcal{P} = \mathbb{R}^4 \rtimes L^{\uparrow} _ {+}$, there exists a unitary operator $U(g)$ acting on $\mathcal{H}$.
+
+\
+
+In order to use the tools of linear representation theory, it is convenient to use the covering group of the Lorentz group, $SL(2,\mathbb{C})$, with $\Lambda = \Lambda (\alpha)$, for $\alpha \in SL(2,\mathbb{C})$. This is desirable in order to speak of projections of rays in $\mathcal{H}$ such that, for $g \in \overline{P} = \mathbb{R}^4 \rtimes SL(2,\mathbb{C})$, $U(g_1)U(g_2)=U(g_1 g_2)$.
+
+\subsection{Relativistic Covariance of the Field - Transformation Properties}
+
+\begin{equation}
+U(a,\alpha) \varphi (x) U^{-1} (a,\alpha) = \varphi (\Lambda(\alpha)x + a)
+\end{equation}
+
+That is, the dependence of the fields transforms as we would expect classically but via unitary operators in a Hilbert space. Equivalently, $U(g)R(\mathcal{O})U^{-1}(g)=R(g\mathcal{O})$.
+
+\subsection{Structure of the Energy - Momentum Spectrum}
+
+\begin{enumerate}
+\item The spectrum of the energy-momentum operators $\hat{P_{\mu}}$ (which are the infinitesimal generators of translations $U(a)$) is confined to the forward light cone. That is, regarding their eigenvalues, we impose $p^0 \geq 0$, $p^2 = m^2 \geq 0$. We bound the energy to ensure the stability of matter. Mathematically, we restrict to one of the classifications of representations of the Poincaré group.
+
+\item There is exactly one state in $\mathcal{H}$ with $0$ energy-momentum, which is invariant under any Lorentz transformation: the vacuum $\ket{0}$. Besides, the mass operator $\hat{M}:=(\hat{P^2})^{\frac{1}{2}}$ has discrete eigenvalues $m_1$, $m_2$, ... corresponding to one-particle states. The spectrum becomes continuous after $2m$, a well-known result from relativistic scattering.
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[domain=-5:5]
+\draw[thick, dotted] (-5,5) -- (0,0) -- (5,5) ;
+\draw [->] (-5,0) -- (5,0);
+\draw [->] (0,0) -- (0,5);
+\draw (0,5) node [above] {$p^0$};
+\draw (5,0) node [right] {$||\vec{p}||$};
+\begin{scope}
+\clip (-5,0) rectangle (5,5);
+\draw plot [smooth] (\x, {sqrt(1+\x*\x)});
+\draw[blue, pattern= south west lines] plot [smooth] (\x, {sqrt(3+\x*\x)});
+\draw[red, pattern=south east lines] plot [smooth] (\x, {sqrt(5+\x*\x)});
+\end{scope}
+\end{tikzpicture}
+\caption{Spectrum of momentum-energy operators. The dashed line represents the light cone. At the origin we have the vacuum state $\ket{0}$. The solid black line is the hyperboloid of mass $m$, that is, $p^2 = m^2$, the possible one particle states, denoted $[m,0]$. In the blue hyperboloid lie the two particle states, $[m,0] \otimes [m,0]$, and it is possible energies have to be at least the one associated with the two rest masses. The same applies for the three particle states in red. \cite{streater_pct_1989}} 
+\label{spec}
+\end{figure}
+
+With the vacuum state and our knowledge on how do the operators act over it (since it is Lorentz invariant), we can make the GNS construction. Since the double commutant of a C*-algebra is a von Neumann one, we could work on the double commutant of the operator algebra in the GNS representation and talk comfortably about von Neumann algebras. This is yet another ground that enables us to work directly with these algebras, without going through a C* one. In other words, it suffices to have a local C*-algebra to talk about von Neumann algebras if we suppose the existence of such invariant state \cite{redei_is_1996}.
+
+\subsection{Completeness - Irreducibility}
+
+\begin{equation}
+R_{\infty} = \mathcal{B} (\mathcal{H})
+\end{equation}
+
+That is, the algebra generated by the operators with support in the whole space-time is the whole subset of bounded operators in the Hilbert space. This simple equation suggests that we should be able to approximate any bounded operator on the Hilbert space with a linear combination of field operators. This definition of completeness can be rewritten with the aid of Schur's lemma. Moreover, Ruelle and Borchers showed that a theory that satisfies 1-5b and that has $\ket{0}$ a cyclic vector of $P_{\infty}$ entails axiom 6 \cite{haag_postulates_1962}.
+
+\
+
+On the other hand, the Reeh-Schlieder theorem can be derived from this definition of completeness: the set of vectors generated from the vacuum by the polynomial algebra of some open region $\mathcal{O}$, $P(\mathcal{O})\ket{0}$, is dense in $\mathcal{H}$ \cite{haag_local_1996}. The theorem is valid if we restrict $\mathcal{O}$ to a space-like Cauchy surface \cite{witten_notes_2018}.
+
+\subsection*{Causality Postulates}
+
+\subsection{Einstein Causality - Microcausality}
+
+If $\mathcal{O}_1$ and $\mathcal{O}_2$ are two regions of space-time space-like separated (which we will denote $\mathcal{O}_1 ~ \mathcal{O}_2$), every element of $R(\mathcal{O}_1)$ commutes with every element of $R(\mathcal{O}_2)$. That is:
+
+\begin{equation}
+[R(\mathcal{O}_1),R(\mathcal{O}_2)]=0
+\end{equation}
+
+This postulate encapsulates the principle according to which no physical effect can travel faster than light, particularly, some measurement in one of the regions \textit{cannot} affect another one in the other region. What happens, then, with the violation of Bell inequalities? Besides, this axiom is not set forth in non-relativistic theories. In order to endow the theory with a causal structure, we will need postulate 8, which applies both to relativistic as well as non-relativistic theories. Hence, 7 and 8 are independent.
+
+\
+
+In order to explore some interesting consequences of this axiom, let us define a Wightman function. A Wightman function of order $n$ is the distribution $W^{(n)} (x_1, ..., x_n) := \bra{0} \varphi (x_1) ... \varphi (x_n) \ket{0}$. Wightman showed that, via the GNS construction, knowing these distribution determines completely the theory. It is in these terms that Wightman did his research some ten years before Haag, whose approach is the algebraic one we have already seen. Doing a permutation of the field operators, the sign of the Wightman function can change. Haag uses this fact to prove the spin-statistics theorem. With regard to this proof, let us give a couple more definitions. For $x$ and $y$ space-like separated, a field is called a \textbf{Bose field} if $[\varphi (x), \varphi ^* (y)]=0$ and a \textbf{Fermi field} if ${\varphi (x) , \varphi ^* (y)}=0$. This property is sometimes called \textbf{local commutativity}. Haag \cite{haag_local_1996} proves the following version of the spin-statistics theorem: fields with integer spin representations are Bose fields, whereas those with half-integer spin are Fermi ones. This is, however, conceptually problematic.
+
+\
+
+\textbf{"Ontological comment"}: Jonathan Bain \cite{bain_cpt_2013} calls this property "spin-locality" instead of "spin-statistics", since the former is a property of the fields and the latter is one of the particles. When finding the Fourier modes, it is possible to find fields that satisfy one condition but violate the other one. Who carries the statistics, then, the fields or the particles? Going deeper, which are more fundamental? Haag (\cite{haag_local_1996}, p. 46) warns against equating both entities. There is not a field for every particle. They implement locality and conserved currents, but they are not associated with every observed particle. Besides, Einstein causality only requires the commutativity of \textit{observables}, but has no statistical content, so what we can observe are fermions (or fermionic fields) or bosons (or bosonic fields), which does not give much new information. Nonetheless, fermions satisfy canonical \textit{anticommutation} relationships, whereas the causality condition is expressed in terms of commutators. Are fermionic fields not observables? It seems evident that they are. In that case, what is the assumption underlying the spin-statistics connection, Einstein causality of observables or local commutativity of the fields?
+
+\subsection{"Primitive Causality" - "Time Slice Axiom"}
+
+\begin{enumerate}
+\item Let $\mathcal{T}$ be a time-slice, defined as $\mathcal{O}_{t,\tau} := \{ x: \abs{x^0 -t} < \tau \}$. Then $R(\mathcal{O}_{t,\tau})=R_\infty$ $\forall \tau$.
+
+\
+
+This means that there exists a dynamical law such that one should be able to calculate the value of the field at any time in terms of the value of the field in a time-slice. This statement has a mathematical ground if we remember the completeness axiom and constrain the support of the test functions to the time-slice.
+
+\
+
+For version b, let us give the following definition: $\mathcal{O}_2$ \textbf{depends causally} on $\mathcal{O}_1$ if every light ray in the forward or backward light cone originating from any point in $\mathcal{O}_2$ goes through $\mathcal{O}_1$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.5]
+\draw (-7,0) to[curve through={(-1,-1.5) .. (1,-1) .. (3,-2) .. (6,1.5) .. (3,2.5) .. (1,3) .. (-1,2.5) .. (-3,4)}] (-7,0);
+\draw (-5,7) to[curve through={(-4,5) .. (-2,5) .. (1,6) .. (3,5) .. (4,7) .. (3,9) .. (-1,8) .. (-4,8)}] (-5,7);
+\draw (-4,11) -- (-5,7) -- (-7,-1);
+\draw (-6,11) -- (-5,7) -- (-3,-1);
+\draw (2,-1) -- (4,7) -- (5,11);
+\draw (3,11) -- (4,7) -- (6,-1);
+\draw (8,0) node {$\mathcal{O}_1$};
+\draw (5,7) node {$\mathcal{O}_2$};
+\end{tikzpicture}
+\caption{$\mathcal{O}_2$ clearly depends causally on $\mathcal{O}_1$. I have deliberately drawn the light-cones at the extremes of the region, as every other one originated in the middle points will also cross $\mathcal{O}_1$. With this in mind, these tangential points will make the causal diamond construction easier to understand.}
+\label{cause}
+\end{figure}
+
+\item If $\mathcal{O}_2$ depends causally on $\mathcal{O}_1$, $R(\mathcal{O}_2) \subseteq R(\mathcal{O}_1)$.
+
+\
+
+This version of the axiom tells us that the law must be hyperbolic. Besides, a particular case of it is the algebraic property of \textbf{isotony}: If $\mathcal{O}_2 \subseteq \mathcal{O}_1$, $R(\mathcal{O}_2) \subseteq R(\mathcal{O}_1).$
+
+\end{enumerate}
+
+\end{section}
+
+\begin{section}{Causal Diamond}
+
+This construction helps us proof that Einstein Causality combined with version a of the time-slice axiom yields version b. That is, $7+8a \rightarrow 8b$. Before making the construction, let us make a couple of definitions: The \textbf{causal complement} $\mathcal{C}'$ of a space-time region $\mathcal{C}$ is that region causally independent from the first one (in the sense of causal independence stated above). Likewise, the \textbf{causal hull} $\hat{\mathcal{C}}$ will be, in this context, the causal complement of the causal complement, that is, $\mathcal{C}''$. This definition will not be adequate for general relativity but it suffices to make the proof.
+
+\
+
+Let us consider the following cylinder in the Minkowski space-time: $C:=\{ x: ||\vec{x}||<a , x^0 < \tau \}$ and the double cone tangent to it. Keeping in mind figure \ref{cause}, this region will be the causal complement of the cylinder.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.75]
+\draw [->] (-7,0) -- (7,0);
+\draw (8,0) node {$||\vec{x}||$};
+\draw [->] (0,-7) -- (0,7);
+\draw (0,8) node {$x^0$};
+\draw[pattern=south west lines] (-3,-2) -- (-3,2) -- (3,2) -- (3,-2) -- cycle;
+\draw (-7,-2) -- (0,5);
+\draw (-7,2) -- (0,-5);
+\draw (7,-2) -- (0,5);
+\draw (7,2) -- (0,-5);
+\fill[pattern=vertical lines] (5,0) -- (7,2) -- (7,-2) -- (5,0);
+\fill[pattern=vertical lines] (-5,0) -- (-7,2) -- (-7,-2) -- (-5,0);
+\draw (0,3) node [right] {$\mathcal{C}_t$};
+\draw (0,-3) node [right] {$\mathcal{C}_t$};
+\draw (4,0) node [above] {$\mathcal{C}_r$};
+\draw (-4,0) node [above] {$\mathcal{C}_r$};
+\end{tikzpicture}
+\caption{Causal diamond. The cylinder $\mathcal{C}$ is shaded with diagonal lines, whereas its causal complement $\mathcal{C}'$ is shaded with vertical lines. The caps between the cylinder and the vertices of the diamond are called, according to their orientation toward the time or space axis, $\mathcal{C}_t$ and $\mathcal{C}_r$, respectively.}
+\label{diamond}
+\end{figure}
+
+Notice that the causal hull of the cylinder is the whole inside of the diamond, that is:
+
+\begin{equation}\label{1}
+\mathcal{C}''=\hat{\mathcal{C}}=\mathcal{C} \cup \mathcal{C}_t \cup \mathcal{C}_r.
+\end{equation}
+
+From the spectrum postulate (5), we have \cite{borchers_uber_1961}:
+
+\begin{equation}\label{2}
+R(\mathcal{C} \cup \mathcal{C}_r) = R(\mathcal{C}).
+\end{equation}
+
+Let us take a time-slice of the size of the cylinder.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.5]
+\draw [->] (-7,0) -- (7,0);
+\draw (8,0) node {$||\vec{x}||$};
+\draw [->] (0,-7) -- (0,7);
+\draw (0,8) node {$x^0$};
+\draw (-3,-2) -- (-3,2) -- (3,2) -- (3,-2) -- cycle;
+\draw (-7,-2) -- (0,5);
+\draw (-7,2) -- (0,-5);
+\draw (7,-2) -- (0,5);
+\draw (7,2) -- (0,-5);
+\draw[very thick, dotted, red] (-8,2) -- (8,2);
+\draw[very thick, dotted, red] (-8,-2) -- (8,-2);
+\fill[pattern = south east lines] (-7,2) -- (-5,0) -- (-3,2);
+\fill[pattern = south east lines] (7,2) -- (5,0) -- (3,2);
+\fill[pattern = south east lines] (-7,-2) -- (-5,0) -- (-3,-2);
+\fill[pattern = south east lines] (7,-2) -- (5,0) -- (3,-2);
+\end{tikzpicture}
+\caption{Time-slice of the size of the cylinder delimited by the red dotted lines. The completeness of 8a is left (almost) untouched by ignoring the shaded caps.}
+\label{time-slice}
+\end{figure}
+
+From 8a, we have that the algebra located in that region generates all the bounded operators. It turns out \cite{haag_postulates_1962} that the caps between $\mathcal{C}'$ and $\mathcal{C} \cup \mathcal{C}_r$ shaded in the time-slice can be, up to a certain extent, be ignored. Let us take, however, the double commutant (since they are von Neumann algebras, we have no problem in doing so) of the smallest algebra generated by those regions, denoted with curly brackets. The commutant is denoted by a prime over the algebra.
+
+\begin{equation}\label{3}
+\{R(\mathcal{C} \cup \mathcal{C}_r),R(\mathcal{C}') \}'' = R_\infty = \{R(\mathcal{C}),R(\mathcal{C}') \}'' = \mathcal{B}(\mathcal{H})
+\end{equation}
+
+We have obtained the third equality from equation \ref{2}. Besides, from Einstein Causality, $R(\mathcal{C}')$ commutes with $R(\mathcal{C})$. Hence,
+
+\begin{equation}\label{4}
+R(\mathcal{C}') \subseteq (R(\mathcal{C}))'
+\end{equation}
+
+It can be shown \cite{haag_postulates_1962} that equations \ref{3} and \ref{4} entail that $R(\mathcal{C})$ is a von Neumann factor. If certain assumptions are made about the type of factor that this algebra is, an important property, known as \textbf{Haag's Duality}, is obtained:
+
+\begin{equation}\label{5}
+R(\mathcal{C}')=(R(\mathcal{C}))'
+\end{equation}
+
+Since we are dealing with von Neumann algebras, $(R(\mathcal{C}))''=R(\mathcal{C})$. Taking the commutant of Haag's Duality, we obtain:
+
+\begin{equation}\label{6}
+(R(\mathcal{C}'))'=(R(\mathcal{C}))''=R(\mathcal{C})
+\end{equation}
+
+Proceeding analogously but replacing $\mathcal{C}$ with $\mathcal{C}'$ in the same identity, and taking in mind equation \ref{1}, we obtain:
+
+\begin{equation}\label{7}
+R((\mathcal{C}')')=(R(\mathcal{C}'))'=R(\mathcal{C}'')=R(\hat{\mathcal{C}})
+\end{equation}
+
+Noticing the common term $(R(\mathcal{C}'))'$ in equations \ref{6} and \ref{7}, we get:
+
+\begin{equation}\label{8}
+R(\mathcal{C})=R(\hat{\mathcal{C}})
+\end{equation}
+
+Finally, by the definition of $\hat{\mathcal{C}}$ in terms of the other regions given by \ref{1} and using the isotony property ($R(\mathcal{C}_t) \subseteq R(\hat{\mathcal{C}})$), this yields the following result:
+
+\begin{equation}\label{9}
+R(\mathcal{C}_t) \subseteq R(\mathcal{C})
+\end{equation}
+
+By using the result from Borchers, Einstein Causality, certain assumptions about von Neumann factors which led to Haag's Duality, and the completeness of the algebra of a time-slice from 8a, we have proved 8b, that is, the algebra of a region that depends causally on another one is a subalgebra of the one of the latter region.
+
+\end{section}
+
+\begin{section}{An Introduction to the Philosophical Problems of Causality}
+
+The father of our modern questions about causality is David Hume, especially in his \textit{A Treatise on Human Nature} and in his \textit{An Enquiry Concerning Human Understanding}. As an empiricist, he rejected the \textit{necessity} imbued in the causal relationship as something metaphysical, obscure, impossible to acquire by experience, no matter how many times this sort of relationship was observed. This led him to define rigorously the concept of causality and, in his case, to think that the relation between two events is merely probable. David Lewis has given a fresh perspective to the causality debate since the 70's by turning over to the second of Hume's definitions, somewhat ignored. It is clear that the first one has dominated science's and philosophy's recent history, and, although it has some flaws, it has been refined in order to distinguish the so-called "causal laws" from other kinds of regularities. "Hume defined causation twice over. He wrote 'we may define a cause to be \textit{an object followed by another, and where all the objects, similar to the first, are followed by objects similar to the second.} Or, in other words, \textit{where, if the first object had not been, the second never had existed.}'" (Hume, D. \textit{An Enquiry Concerning Human Understanding}. Cited in Lewis, D. \textit{Causation}, p. 556, \cite{lewis_causation_1973}).
+
+\
+
+In the first conception of causality a couple of problems come up. Let us give a few examples. Let \textit{c} belong to a very small set of conditions that, however, suffice for \textit{e} to occur. How can we know if \textit{c} was the real cause of \textit{e}? Some alternative scenarios have been brought forth by philosophers:
+
+\begin{itemize}
+\item \textit{c} is an epiphenomenon of the causal history of \textit{e}, that is, an inefficacious effect of the genuine cause of \textit{e} \cite{lewis_causation_1973}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\tikzstyle{every node}=[circle,fill=gray]
+\node (A) at (-1,0) {\textit{a}};
+\node (c) at (0,0) {\textit{c}};
+\node (e) at (1,0) {\textit{e}};
+\draw[->] (-0.65,0) -- (-0.3,0);
+\draw[->] (0.35,0) -- (0.65,0);
+\end{tikzpicture}
+\caption{For example, neuron \textit{a} causes \textit{e} to fire, by the way of an intermediate neuron \textit{c}.\cite{collins_causation_2004}}
+\end{figure}
+
+In this case, the firing of \textit{c} was some "collateral" effect from the firing of \textit{a}, the true cause of \textit{e}. Another similar example could be:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\tikzstyle{every node}=[circle,fill=gray]
+\node (A) at (-1,0) {\textit{a}};
+\node (c) at (1,1) {\textit{c}};
+\node (e) at (1,-1) {\textit{e}};
+\draw[->] (-0.65,0) -- (0.65,1);
+\draw[->] (-0.65,0) -- (0.65,-1);
+\end{tikzpicture}
+\caption{\textit{c} is either simultaneous or precedes the firing of \textit{e} but does not "contribute" to its occurrence. \cite{collins_causation_2004}}
+\end{figure}
+
+\item \textit{c} is a preempted potential cause of \textit{e}, that is, \textit{c} did not cause \textit{e} but it would have done it had its real cause not happened.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\tikzstyle{every node}=[circle]
+\node[fill=gray] (A) at (-1,0) {\textit{a}};
+\node[fill=gray] (d) at (0,1) {\textit{d}};
+\node[fill=gray] (e) at (1,1) {\textit{e}};
+\node[draw] (c) at (0,-1) {\textit{c}};
+\draw[->] (-0.65,0) -- (-0.4,1);
+\draw[->] (0.4,1) -- (0.65,1);
+\draw (-0.65,0) -- (-0.35,-1);
+\draw (0.35,-1) -- (0.65,1);
+\end{tikzpicture}
+\caption{\textit{a} fires, stimulating \textit{d} to fire, which in turn does so with \textit{e}, although \textit{c}, stimulated by \textit{a}, could have done it. \cite{collins_causation_2004}}
+\end{figure}
+
+Another example of this problem (in a somewhat different version) is: suppose I throw a rock at a window. The cause of its breaking is definitely my throwing the rock. If someone stands in the way of my rock and the window, that person should be able to stop the rock, avoiding it from hitting the window. If, nonetheless, the window is broken, whose "fault" was it, mine for throwing it or the other person's for ducking?
+
+\end{itemize}
+
+An alternative to try to solve this problems is Hume's second definition, which is hardly a reformulation of the first one. This is called \textbf{counterfactual analysis}. If we stick to concrete cases and preserve the vagueness of propositions such as "B would not have happened if A had not happened", the problem of identifying the real cause can be (partially) solved \cite{lewis_causation_1973}. Although Lewis's approach has been much criticized, he first started giving a logical structure to these propositions about what could have happened, since the regular material implication of propositional logic ceases to apply (as there are no well-defined truth values and factors such as the context can take over) and since they are not affirmative sentences but are usually written in subjunctive mood. Part of the criticisms consisted in questioning the possibility of formalizing such subjective propositions.
+
+\
+
+Lewis, however, took part of the tools of modal logic and began by stating that all the possible worlds are comparable. That is, when we think about all the things that could have happened, we should be able to establish some comparison with that world and this one. Some authors are more conservative and restrict to \textit{physically} possible worlds, i. e., those in which our physical laws apply. This constraint is motivated by the thought that two events in the same time-line could not possibly diverge completely, up to the point of breaking the laws. A couple of issues arise, regarding whether the causal relata are events or objects or what are the ontological statuses of those possible worlds. Are they concepts or are they somehow real, like Lewis and scientists like Everett thought? The concepts of causation become clear paying the price of an oversized ontology. Another issue is the notion of similarity among the possible worlds, of which Stalnaker pursued to establish a "measurement".
+
+\
+
+In order to give a slight flavor of the mechanism behind all those ideas, let us finish this introduction to the philosophy of causation by defining the new logical connective that Lewis introduced \cite{lewis_causation_1973}, \cite{collins_causation_2004}. Let \textit{A} and \textit{C} be two propositions. We define the \textbf{counterfactual} or counterfactual conditional as: \textit{A} $\Box \rightarrow$ \textit{C} is true, at a world \textit{w}, if and only if:
+
+\begin{itemize}
+\item There are no possible \textit{A}-worlds, that is, worlds where \textit{A} occurs. In this case, the counterfactual is vacuously true. Or:
+\item Some \textit{A}-world where \textit{C} occurs is closer to \textit{w} than any \textit{A}-world where \textit{C} does not hold.
+\end{itemize}
+
+Notice that we have not supposed that \textit{A} holds. Were that be the case, our world would obviously be the closest \textit{A}-world to ours, from which the truth value of the counterfactual depends only on the occurrence of \textit{C}. That is, the counterfactual conditional becomes our usual material conditional, since its truth only depends on the truth values of \textit{A} and \textit{C}.
+
+\end{section}
+
+\begin{section}{Open Questions and Further Work}
+
+\begin{itemize}
+\item The theory, as it is, does not allow the violation of Bell's inequalities, a fact which is observed experimentally. Is it possible that there is superluminal causation? This is prohibited by Einstein Causation. However, is there superluminal \textit{counterfactual} causation? Rédei \cite{redei_is_1996} proved in a very restricted case that there is not. However, this result relies heavily on assumptions about the type of factor of the local algebras. Is it possible to have counterfactual superluminal causation with other types?
+\item Both the possibility of counterfactual superluminal causation and Haag's Duality rest upon the type of algebra we are considering. What is this relationship between von Neumann factorization, causality, and the structure of space-time?
+\item Will there be some mathematical argument or physical evidence that helps to enlighten the "ontological comment" problem? What is the relationship between causation and the spin-statistics connection? What are the fundamental entities of nature, fields or particles?
+\item Sorkin proposes a definition of an entanglement entropy associated with some (not necessarily flat) region of space-time \cite{sorkin_expressing_2012} studying field correlations with products similar as the second order Wightman axioms in the polynomial algebra presented. How does this lead to the equation proposed by Sorkin? How is this formula related to the structure of that region and with the partition of the entanglement subsystems? This could lead, some people think, to the generalization of the formalism presented above and some are even considering his work as a young instance of quantum gravity.
+\end{itemize}
+
+\end{section}
+
+\bibliographystyle{unsrt}
+\bibliography{4KC}
 \end{document}
